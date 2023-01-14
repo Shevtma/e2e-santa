@@ -20,16 +20,22 @@ describe("user can create a box and run it", () => {
   //пользователь 1 логинится
   //пользователь 1 запускает жеребьевку
   let newBoxName = faker.word.noun({ length: { min: 5, max: 10 } });
-  let wishes = faker.word.noun() + faker.word.adverb() + faker.word.adjective();
   let maxAmount = 50;
   let currency = "Евро";
-  let inviteLink;
+  let inviteLink = "";
+  let newBoxId = "";
 
   it("user logins and create a box", () => {
     cy.visit("/login");
-    cy.login(users.userAutor.email, users.userAutor.password);
+    cy.login(users.userAuthor.email, users.userAuthor.password);
     cy.contains("Создать коробку").click();
     cy.get(boxPage.boxNameField).type(newBoxName);
+    cy.get(boxPage.boxIdSelector)
+      .invoke("val")
+      .then((boxId) => {
+        newBoxId = boxId;
+        cy.log(newBoxId);
+      });
     cy.get(generalElements.arrowRight).click();
     cy.get(boxPage.sixthIcon).click();
     cy.get(generalElements.arrowRight).click();
@@ -39,8 +45,11 @@ describe("user can create a box and run it", () => {
     cy.get(generalElements.arrowRight).click();
     cy.get(generalElements.arrowRight).click();
     cy.get(generalElements.arrowRight).click();
-    cy.get(dashboardPage.createdBoxName).should("have.text", newBoxName);
-    cy.get(".layout-1__header-wrapper-fixed .toggle-menu-item span")
+    cy.get(dashboardPage.createdBoxNameSelector).should(
+      "have.text",
+      newBoxName
+    );
+    cy.get(dashboardPage.headerElementsSelector)
       .invoke("text")
       .then((text) => {
         expect(text).to.include("Участники");
@@ -58,17 +67,65 @@ describe("user can create a box and run it", () => {
       });
     cy.clearCookies();
   });
+
   it("approve as user1", () => {
+    let wishes =
+      faker.word.noun() +
+      " " +
+      faker.word.adverb() +
+      " " +
+      faker.word.adjective();
+
     cy.visit(inviteLink);
     cy.get(generalElements.submitButton).click();
     cy.contains("войдите").click();
     cy.login(users.user1.email, users.user1.password);
     cy.contains("Создать карточку участника").should("exist");
+    cy.createAParticipantCard(wishes);
+    cy.get(inviteeDashboardPage.noticeForInvitee)
+      .invoke("text")
+      .then((text) => {
+        expect(text).to.contain("Это — анонимный чат с вашим Тайным Сантой");
+      });
+    cy.clearCookies();
+  });
+
+  it("approve as user2", () => {
+    let wishes =
+      faker.word.noun() +
+      " " +
+      faker.word.adverb() +
+      " " +
+      faker.word.adjective();
+
+    cy.visit(inviteLink);
     cy.get(generalElements.submitButton).click();
-    cy.get(generalElements.arrowRight).click();
-    cy.get(generalElements.arrowRight).click();
-    cy.get(inviteeBoxPage.wishesInput).type(wishes);
-    cy.get(generalElements.arrowRight).click();
+    cy.contains("войдите").click();
+    cy.login(users.user2.email, users.user2.password);
+    cy.contains("Создать карточку участника").should("exist");
+    cy.createAParticipantCard(wishes);
+    cy.get(inviteeDashboardPage.noticeForInvitee)
+      .invoke("text")
+      .then((text) => {
+        expect(text).to.contain("Это — анонимный чат с вашим Тайным Сантой");
+      });
+    cy.clearCookies();
+  });
+
+  it("approve as user3", () => {
+    let wishes =
+      faker.word.noun() +
+      " " +
+      faker.word.adverb() +
+      " " +
+      faker.word.adjective();
+
+    cy.visit(inviteLink);
+    cy.get(generalElements.submitButton).click();
+    cy.contains("войдите").click();
+    cy.login(users.user3.email, users.user3.password);
+    cy.contains("Создать карточку участника").should("exist");
+    cy.createAParticipantCard(wishes);
     cy.get(inviteeDashboardPage.noticeForInvitee)
       .invoke("text")
       .then((text) => {
@@ -79,7 +136,7 @@ describe("user can create a box and run it", () => {
 
   after("delete box", () => {
     cy.visit("/login");
-    cy.login(users.userAutor.email, users.userAutor.password);
+    cy.login(users.userAuthor.email, users.userAuthor.password);
     cy.get(
       '.layout-1__header-wrapper-fixed > .layout-1__header > .header > .header__items > .layout-row-start > [href="/account/boxes"] > .header-item > .header-item__text > .txt--med'
     ).click();
@@ -94,3 +151,4 @@ describe("user can create a box and run it", () => {
     cy.get(".btn-service").click();
   });
 });
+
