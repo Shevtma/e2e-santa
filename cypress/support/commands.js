@@ -27,6 +27,7 @@
 const loginPage = require("../fixtures/pages/loginPage.json");
 const generalElements = require("../fixtures/pages/general.json");
 const inviteeBoxPage = require("../fixtures/pages/inviteeBoxPage.json");
+const dashboardPage = require("../fixtures/pages/dashboardPage.json");
 
 Cypress.Commands.add("login", (userName, password) => {
   cy.get(loginPage.loginField).type(userName);
@@ -40,5 +41,16 @@ Cypress.Commands.add("createAParticipantCard", (wishes) => {
   cy.get(generalElements.arrowRight).click();
   cy.get(inviteeBoxPage.wishesInput).type(wishes);
   cy.get(generalElements.arrowRight).click();
+});
+
+Cypress.Commands.add("checkNotifications", (newBoxName) => {
+  cy.get(dashboardPage.showNotificationsSelector)
+    .should("exist")
+    .click({ force: true });
+  cy.get(dashboardPage.notificationTextSelector).should(
+    "have.text",
+    `У тебя появился подопечный в коробке "${newBoxName}". Скорее переходи по кнопке, чтобы узнать кто это!`
+  );
+  cy.get(dashboardPage.readAllNotificationsSelector).click();
 });
 

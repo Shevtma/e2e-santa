@@ -1,5 +1,8 @@
 {
   "createdBoxNameSelector": ".layout-1__header-wrapper-fixed .txt-h3--max-1-lines",
   "headerElementsSelector":  ".layout-1__header-wrapper-fixed .toggle-menu-item span",
-  "boxesHrefSelector" : ".layout-1__header-wrapper-fixed > .layout-1__header [href=\"/account/boxes\"]"
+  "boxesHrefSelector" : ".layout-1__header-wrapper-fixed > .layout-1__header [href=\"/account/boxes\"]",
+  "showNotificationsSelector" : ".layout-1__header-wrapper-fixed > .layout-1__header > .header > .header__items > .layout-row-start > :nth-child(2) > .header-item__text",
+  "notificationTextSelector" : ":nth-child(1) > .notifications-item__message",
+  "readAllNotificationsSelector" : ".notifications-panel__top > .base--clickable"
 }

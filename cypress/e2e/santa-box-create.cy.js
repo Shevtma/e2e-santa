@@ -144,14 +144,57 @@ describe("user can create a box and run it", () => {
     cy.get(generalElements.submitButton).click();
     cy.get(lotteryPage.lotteryApproveSelector).click();
     cy.contains("Жеребьевка проведена").should("exist");
+    cy.clearCookies();
+  });
+
+  it("Check notifications for user1", () => {
+    cy.visit("/login");
+    cy.login(users.user1.email, users.user1.password);
+    cy.checkNotifications(newBoxName);
+    cy.clearCookies();
+  });
+
+  it("Check notifications for user2", () => {
+    cy.visit("/login");
+    cy.login(users.user2.email, users.user2.password);
+    cy.checkNotifications(newBoxName);
+    cy.clearCookies();
+  });
+
+  it("Check notifications for user3", () => {
+    cy.visit("/login");
+    cy.login(users.user3.email, users.user3.password);
+    cy.checkNotifications(newBoxName);
+    cy.clearCookies();
   });
 
   after("delete box", () => {
-    cy.visit("/login");
-    cy.login(users.userAuthor.email, users.userAuthor.password);
+    let connectSIDcookie = "";
+    cy.request({
+      method: "POST",
+      url: "api/login",
+      body: {
+        email: users.userAuthor.email,
+        password: users.userAuthor.password,
+      },
+    }).then((response) => {
+      expect(response.status).to.eq(200);
+    });
+    cy.request({
+      method: "GET",
+      url: "api/session",
+    }).then((response) => {
+      let cookie = response.requestHeaders["cookie"];
+      let arrayofcookies = cookie.split(";");
+      connectSIDcookie = arrayofcookies[arrayofcookies.length - 1];
+    });
+
     cy.request({
       method: "DELETE",
-      url: "api/box/" + newBoxId,
+      url: `api/box/${newBoxId}`,
+      headers: {
+        cookie: connectSIDcookie,
+      },
     }).should((response) => {
       expect(response.status).to.eq(200);
     });
