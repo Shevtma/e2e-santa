@@ -5,6 +5,7 @@ const dashboardPage = require("../fixtures/pages/dashboardPage.json");
 const invitePage = require("../fixtures/pages/invitePage.json");
 const inviteeBoxPage = require("../fixtures/pages/inviteeBoxPage.json");
 const inviteeDashboardPage = require("../fixtures/pages/inviteeDashboardPage.json");
+const lotteryPage = require("../fixtures/pages/lotteryPage.json");
 import { faker } from "@faker-js/faker";
 
 describe("user can create a box and run it", () => {
@@ -131,6 +132,18 @@ describe("user can create a box and run it", () => {
         expect(text).to.contain("Это — анонимный чат с вашим Тайным Сантой");
       });
     cy.clearCookies();
+  });
+
+  it("Start the lottery", () => {
+    cy.visit("/login");
+    cy.login(users.userAuthor.email, users.userAuthor.password);
+    cy.get(dashboardPage.boxesHrefSelector).click();
+    cy.contains("Мои Коробки").should("exist");
+    cy.contains(newBoxName).click({ timeout: 2000 });
+    cy.get(lotteryPage.lotteryStartSelector).click({ force: true });
+    cy.get(generalElements.submitButton).click();
+    cy.get(lotteryPage.lotteryApproveSelector).click();
+    cy.contains("Жеребьевка проведена").should("exist");
   });
 
   after("delete box", () => {

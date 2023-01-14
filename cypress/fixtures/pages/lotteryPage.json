@@ -1,0 +1,4 @@
+{
+    "lotteryStartSelector" : "a > .txt-secondary--med",
+    "lotteryApproveSelector": ".santa-modal_content_buttons > .btn-main"
+}
