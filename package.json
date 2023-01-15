@@ -6,12 +6,15 @@
   "scripts": {
     "cy:run": "npx cypress run",
     "cy:open": "npx cypress open"
-
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cypress": "^12.2.0",
-    "@faker-js/faker": "^7.6.0"
+    "@faker-js/faker": "^7.6.0",
+    "cypress": "^12.2.0"
+  },
+  "devDependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^15.1.1",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.1.5"
   }
 }

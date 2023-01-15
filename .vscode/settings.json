@@ -1,0 +1,7 @@
+{
+    "cucumberautocomplete.onTypeFormat": true,
+    "cucumberautocomplete.gherkinDefinitionPart": "true",
+    "editor.quickSuggestions": {
+        "strings": "on"
+    }
+}
