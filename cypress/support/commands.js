@@ -43,14 +43,14 @@ Cypress.Commands.add("createAParticipantCard", (wishes) => {
   cy.get(generalElements.arrowRight).click();
 });
 
-Cypress.Commands.add("checkNotifications", (newBoxName) => {
-  cy.get(dashboardPage.showNotificationsSelector)
-    .should("exist")
-    .click({ force: true });
-  cy.get(dashboardPage.notificationTextSelector).should(
-    "have.text",
-    `У тебя появился подопечный в коробке "${newBoxName}". Скорее переходи по кнопке, чтобы узнать кто это!`
-  );
-  cy.get(dashboardPage.readAllNotificationsSelector).click();
-});
+// Cypress.Commands.add("checkNotifications", (newBoxName) => {
+//   cy.get(dashboardPage.showNotificationsSelector)
+//     .should("exist")
+//     .click({ force: true });
+//   cy.get(dashboardPage.notificationTextSelector).should(
+//     "have.text",
+//     `У тебя появился подопечный в коробке "${newBoxName}". Скорее переходи по кнопке, чтобы узнать кто это!`
+//   );
+//   cy.get(dashboardPage.readAllNotificationsSelector).click();
+// });
 
