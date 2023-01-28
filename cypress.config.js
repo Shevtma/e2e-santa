@@ -4,6 +4,7 @@ const addCucumberPreprocessorPlugin =
 const createEsbuildPlugin =
   require("@badeball/cypress-cucumber-preprocessor/esbuild").createEsbuildPlugin;
 const createBundler = require("@bahmutov/cypress-esbuild-preprocessor");
+const allureWriter = require("@shelex/cypress-allure-plugin/writer");
 
 module.exports = defineConfig({
   e2e: {
@@ -18,8 +19,13 @@ module.exports = defineConfig({
 
       on("file:preprocessor", bundler);
       addCucumberPreprocessorPlugin(on, config);
+      allureWriter(on, config);
 
       return config;
+    },
+    env: {
+      allure: true,
+      allureReuseAfterSpec: true,
     },
   },
 });

@@ -32,3 +32,17 @@ e2e: {
 
 Use `Cucumber (Gherkin) Full Support` plugin for VS Code
 
+## To use Allure reports with the project
+
+1. Install the Allure following the instructions from [here](https://docs.qameta.io/allure/#_how_to_proceed)
+
+2. Install the cypress-allure-plugin or run the command `npm install` - to get all packages
+
+3. run commands:
+
+   `npm run pretest:clear` - in case you need to clear directories with the previos results
+
+   `npm run cy:run:with:allure` - to run the tests and generate the Allure report
+
+   `npm run allure:open` - to open the Allure report
+
