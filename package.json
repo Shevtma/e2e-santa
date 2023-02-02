@@ -7,8 +7,8 @@
     "cy:run": "npx cypress run --env allure=true",
     "cy:open": "npx cypress open",
     "pretest:clear": "rm -r allure-results/ allure-report cypress/screenshots cypress/videos || true",
-    "allure:report": "allure generate allure-results --clean -o allure-report",
-    "allure:open": "allure open allure-report",
+    "allure:report": "allure generate",
+    "allure:open": "allure open",
     "cy:run:with:allure": "npm run cy:run || npm run allure:report"
   },
   "author": "",
